@@ -1,0 +1,10 @@
+application: enbookme
+version: golang
+runtime: go
+api_version: 2
+
+handlers:
+- url: /css
+  static_dir: static/css
+- url: /.*
+  script: _go_app
