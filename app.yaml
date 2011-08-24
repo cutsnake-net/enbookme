@@ -3,6 +3,8 @@ version: golang
 runtime: go
 api_version: 2
 
+default_expiration: "1s"
+
 handlers:
 - url: /css
   static_dir: static/css
