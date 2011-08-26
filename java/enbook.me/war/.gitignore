@@ -1,0 +1,6 @@
+enbookme/*
+WEB-INF/deploy/*
+WEB-INF/classes/*
+WEB-INF/lib/*
+*.class
+

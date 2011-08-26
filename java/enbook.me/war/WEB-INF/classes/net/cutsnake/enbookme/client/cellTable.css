@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+.cellTableOddRow {
+	background-color: #E6F3FF;
+}
+.cellTableOddRowCell {
+    border-color: #E6F3FF;
+}
