@@ -1,2 +1,0 @@
-serviceClass: net.cutsnake.enbookme.client.LoginService
-path: 18C6662E498F4136621EAF670D6B729D.gwt.rpc

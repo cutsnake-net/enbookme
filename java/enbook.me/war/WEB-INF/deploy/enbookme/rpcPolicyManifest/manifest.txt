@@ -1,4 +1,0 @@
-# Module enbookme
-# RPC service class, partial path of RPC policy file
-net.cutsnake.enbookme.client.LoginService, 18C6662E498F4136621EAF670D6B729D.gwt.rpc
-net.cutsnake.enbookme.client.BookService, A6ACE6AEEA4F822FE8D9073900831EAD.gwt.rpc
