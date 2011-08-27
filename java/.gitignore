@@ -3,3 +3,4 @@
 */.classpath
 *appengine-generated*
 *gwt-unitCache*
+*/.gwt/*

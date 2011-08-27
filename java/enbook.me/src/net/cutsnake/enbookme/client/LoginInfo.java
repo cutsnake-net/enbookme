@@ -5,7 +5,8 @@ package net.cutsnake.enbookme.client;
 import java.io.Serializable;
 
 /**
- *
+ * Defines login details for the user
+ * 
  * @author jamie
  */
 public class LoginInfo implements Serializable {

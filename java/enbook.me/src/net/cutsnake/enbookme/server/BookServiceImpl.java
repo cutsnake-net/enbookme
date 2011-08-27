@@ -3,6 +3,7 @@
 package net.cutsnake.enbookme.server;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -19,12 +20,14 @@ import com.google.common.collect.Lists;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * The server side implementation of the RPC service.
+ * The server side implementation of the Book service.
  */
 @SuppressWarnings("serial")
 public class BookServiceImpl extends RemoteServiceServlet implements
 		BookService {
 
+  private static final Logger log = Logger.getLogger(BookServiceImpl.class.getName());
+  
   @Override
   public List<Book> list() throws IllegalArgumentException {
     return new BookQueryTask().execute();
@@ -42,6 +45,7 @@ public class BookServiceImpl extends RemoteServiceServlet implements
           book.setCreated(System.currentTimeMillis());
         }
         pm.makePersistent(book);
+        log.info("New book key: " + book.getKey());
       }
       @Override
       public List<Book> postQuery(List<Book> results) {
@@ -79,8 +83,8 @@ public class BookServiceImpl extends RemoteServiceServlet implements
       }
       User currentUser = userService.getCurrentUser();
       PersistenceManager pm = PMF.getPersistenceManagerFactory().getPersistenceManager();
-      try {
-        Transaction txn = pm.currentTransaction();
+      Transaction txn = pm.currentTransaction();
+      try {        
         txn.begin();
         preQuery(currentUser, pm);
         pm.flush();
@@ -90,10 +94,16 @@ public class BookServiceImpl extends RemoteServiceServlet implements
         query.setIgnoreCache(false);
         @SuppressWarnings("unchecked")
         List<Book> results = Lists.newArrayList(pm.detachCopyAll((List<Book>) query.execute(currentUser.getUserId())));
+        for (Book book : results) {
+          log.info("Book [" + book.getKey() + "]: " + pm.getObjectId(book));
+        }
         txn.commit();
         // TODO(jamie): This can't be necessary can it?
         return postQuery(results);
       } finally {
+        if (txn.isActive()) {
+          txn.rollback();
+        }
         pm.close();
       }
     }

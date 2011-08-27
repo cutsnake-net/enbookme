@@ -114,6 +114,12 @@
               </g:DockLayoutPanel>
             </g:cell>
             <g:cell>
+              <g:DockLayoutPanel unit='EM' addStyleNames="{style.formField}">
+                <g:west size="5"><g:Label addStyleNames="{style.formLabel}">Email</g:Label></g:west>
+                <g:center><g:TextBox ui:field="emailBox" addStyleNames="{style.formValue}"></g:TextBox></g:center>
+              </g:DockLayoutPanel>
+            </g:cell>
+            <g:cell>
               <g:FlowPanel addStyleNames="{style.buttonPanel}"><g:Button ui:field='create' addStyleNames="{style.button}">Enbook Me!</g:Button></g:FlowPanel>
             </g:cell>
           </g:VerticalPanel>

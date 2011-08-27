@@ -7,7 +7,8 @@ import net.cutsnake.enbookme.client.UserLoggedInEvent.Handler;
 import com.google.web.bindery.event.shared.Event;
 
 /**
- *
+ *  Event fired when a user is logged in.
+ *  
  * @author jamie
  */
 public class UserLoggedInEvent extends Event<Handler> {

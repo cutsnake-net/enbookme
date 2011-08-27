@@ -9,11 +9,6 @@ import net.cutsnake.enbookme.shared.Book;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ImageResource.ImageOptions;
-import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -22,11 +17,12 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- *
+ * Main interaction widget.
+ * 
  * @author jamie
  */
 public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
@@ -37,8 +33,9 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
   interface MainPanelUiBinder extends UiBinder<Widget, MainPanel> {}
   
   @UiField(provided = true) CellTable<Book> bookList;
-  @UiField HasText urlBox;
-  @UiField HasText nameBox;
+  @UiField TextBox urlBox;
+  @UiField TextBox nameBox;
+  @UiField TextBox emailBox;
   
   public MainPanel(BookServiceAsync bookService) {
     this.bookService = bookService;
@@ -82,6 +79,10 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
       }
     }, "Last Updated");
     initWidget(uiBinder.createAndBindUi(this));
+    
+    nameBox.getElement().setAttribute("placeholder", "the name the file should be sent as");
+    urlBox.getElement().setAttribute("placeholder", "the URL of a document you'd like to read");
+    emailBox.getElement().setAttribute("placeholder", "the email of your Kindle device");
   }
 
   @Override
@@ -111,6 +112,7 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
     Book book = new Book();
     book.setName(nameBox.getText());
     book.setUrl(urlBox.getText());
+    book.setEmail(emailBox.getText());
     bookService.add(book, new AsyncCallback<List<Book>>() {
       @Override
       public void onFailure(Throwable caught) {

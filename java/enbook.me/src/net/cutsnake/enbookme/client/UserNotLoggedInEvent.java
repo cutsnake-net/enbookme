@@ -7,7 +7,8 @@ import net.cutsnake.enbookme.client.UserNotLoggedInEvent.Handler;
 import com.google.web.bindery.event.shared.Event;
 
 /**
- *
+ * Event fired when a user is not logged in.
+ * 
  * @author jamie
  */
 public class UserNotLoggedInEvent extends Event<Handler> {

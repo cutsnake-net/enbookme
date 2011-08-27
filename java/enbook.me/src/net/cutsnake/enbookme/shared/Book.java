@@ -33,21 +33,37 @@ public class Book implements Serializable {
   private String Owner;
   
   @Persistent
+  private String Email;
+  
+  @Persistent
   private long Created = -1;
   
+  /**
+   * The last time the content at the URL was checked for updates.
+   */
   @Persistent
   private long LastChecked = -1;
   
+  /**
+   * The last time the content at the URL was found to have changed.
+   */
   @Persistent
   private long LastChanged = -1;
+  
+  /**
+   * The last time the content at the URL was sent as an update.
+   */
+  @Persistent
+  private long LastUpdateSent = -1;
+  
+  @Persistent
+  private String Checksum;
+  
+  @Persistent
+  private int Length = -1;
 
   public String getKey() {
     return Key;
-  }
-
-  public Book setKey(String key) {
-    Key = key;
-    return this;
   }
 
   public String getUrl() {
@@ -77,6 +93,15 @@ public class Book implements Serializable {
     return this;
   }
 
+  public String getEmail() {
+    return Email;
+  }
+
+  public Book setEmail(String email) {
+    Email = email;
+    return this;
+  }
+
   public long getCreated() {
     return Created;
   }
@@ -101,6 +126,33 @@ public class Book implements Serializable {
 
   public Book setLastChanged(long lastChanged) {
     LastChanged = lastChanged;
+    return this;
+  }
+
+  public long getLastUpdateSent() {
+    return LastUpdateSent;
+  }
+
+  public Book setLastUpdateSent(long lastUpdateSent) {
+    LastUpdateSent = lastUpdateSent;
+    return this;
+  }
+
+  public String getChecksum() {
+    return Checksum;
+  }
+
+  public Book setChecksum(String checksum) {
+    Checksum = checksum;
+    return this;
+  }
+
+  public int getLength() {
+    return Length;
+  }
+
+  public Book setLength(int length) {
+    Length = length;
     return this;
   }
 }

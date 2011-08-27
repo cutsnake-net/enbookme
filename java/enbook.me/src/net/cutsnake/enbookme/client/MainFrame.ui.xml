@@ -15,26 +15,69 @@
       height: 100%;
       width: 100%;
     }
+    .helpPanel {
+      height: 100%;
+      width: 100%;
+      font-size: 1em;
+    }
     .linkBar {
       width: 1024px;
       margin: 0 auto;
       background: white;
       border-bottom: 1px solid #CCC;
     }
+    a:visited, 
+    a:hover, 
+    a,
     .username:visited, 
     .username:hover, 
     .username {
-	   float: right;
 	   color: #5588bb;
 	   font-weight: bold;
+       cursor: pointer;
+    }
+    .username:visited, 
+    .username:hover, 
+    .username {
+       float: right;
 	   line-height: 5.5em;
-	   margin-right: 112px;
+	   margin-right: 15px;
     }
     .logo {
 	  font-size: 3em;
 	  float: left;
 	  font-family: "PT Sans Narrow", arial, sans;
       font-weight: bold;
+    }
+    .helpContent {
+      width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding-bottom: 1em;
+    }
+    .heading {
+      margin: 0;
+      padding: 0.7em 0 0 0;
+      font-family: "PT Sans Narrow", arial, sans;
+      font-weight: bold;
+      font-size: 2.7em;
+    }
+    .body {
+      margin: 0;
+      padding: 0 0 0.2em 0;
+	  font-family: Arial, sans;
+      font-size: 1.2em;
+    }
+    .footer {
+      width: 1024px;
+      margin: 0 auto;
+      background: white;
+      border-top: 1px solid #CCC;
+	}
+    .footerText {
+	   float: right;
+	   color: #CCC;
+	   margin-right: 15px;
     }
   </ui:style>
   <g:HTMLPanel addStyleNames="{style.fill}">
@@ -43,11 +86,38 @@
         <g:FlowPanel addStyleNames="{style.linkBar}">
           <g:Label addStyleNames="{style.logo}">Enbook.Me</g:Label>
           <g:Anchor ui:field="username" addStyleNames="{style.username}"></g:Anchor>
+          <g:Label ui:field="help" addStyleNames="{style.username}">help</g:Label>
         </g:FlowPanel>
       </g:north>
       <g:center>
-        <g:SimplePanel ui:field="content" addStyleNames="{style.content}"></g:SimplePanel>
+        <g:LayoutPanel addStyleNames="{style.content}" ui:field="layoutPanel">
+          <g:layer>
+            <g:SimplePanel ui:field="helpPanel" addStyleNames="{style.helpPanel}">
+              <g:HTMLPanel addStyleNames="{style.helpContent}">
+                <p class="{style.heading}">What is Enbook.me?</p>
+                <p class="{style.body}">This is a simple service that you can use to track updates to documents around the web, and automatically download them to your eBook reader.</p>
+                <p class="{style.body}">The application takes a daily look at all the registered URLs to see if they've changed.  If they have, a new version is sent out to its subscribers.</p>
+                <p class="{style.heading}">What devices are supported?</p>
+                <p class="{style.body}">At the moment, we can only send to Kindles, and devices running Kindle software.  We aim to roll out support for Android devices without Kindle software soon, and other devices after that.</p>
+                <p class="{style.heading}">What file types are supported?</p>
+                <p class="{style.body}">We're running on AppEngine, which limits the sorts of files we can send as email attachments, but all the usual suspects are supported, including PDF, Word, Text, ODT and others.  For a full list, see <a href="http://code.google.com/intl/us/appengine/docs/python/mail/overview.html#Attachments">here</a>, and compare to those supported by your device.</p>
+                <p class="{style.heading}">What does it mean by &quot;the email of my Kindle device&guot;?</p>
+                <p class="{style.body}">All Kindle devices have an email address you can use to email personal documents to.  It can be found on the device, under settings.  For more information, see the page at <a href="http://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200493090#email">Amazon</a>.</p>
+                <p class="{style.heading}">What does this cost me?</p>
+                <p class="{style.body}">Enbook.me charges nothing, but depending on how you use the sync service, Amazon may charge you for syncing personal documents.  This varies from country to country, but usually synching over WiFi is free, but doing so over 3G costs a nominal fee.  More details <a href="http://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200493090#fees">here</a>.</p>
+              </g:HTMLPanel>
+            </g:SimplePanel>
+          </g:layer>
+          <g:layer>
+             <g:SimplePanel ui:field="content" addStyleNames="{style.content}"></g:SimplePanel>
+          </g:layer>
+        </g:LayoutPanel>
       </g:center>
+      <g:south size="30">
+        <g:FlowPanel addStyleNames="{style.footer}">
+          <g:Label addStyleNames="{style.footerText}">Copyright 2011, cutsnake.net.  All rights reserved.</g:Label>
+        </g:FlowPanel>
+      </g:south>
     </g:DockLayoutPanel>
   </g:HTMLPanel>
 </ui:UiBinder> 

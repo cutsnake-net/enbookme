@@ -24,6 +24,24 @@
     <url-pattern>/enbookme/books</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>checkerServlet</servlet-name>
+    <servlet-class>net.cutsnake.enbookme.server.UpdateCheckerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>checkerServlet</servlet-name>
+    <url-pattern>/tasks/check/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>mailerServlet</servlet-name>
+    <servlet-class>net.cutsnake.enbookme.server.EmailUpdaterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mailerServlet</servlet-name>
+    <url-pattern>/tasks/update/*</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>EnbookMe.html</welcome-file>
