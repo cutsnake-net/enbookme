@@ -54,10 +54,11 @@
       margin: 0 auto;
       background: white;
       padding-bottom: 1em;
+      overflow-y: auto;
     }
     .heading {
       margin: 0;
-      padding: 0.7em 0 0 0;
+      padding: 0.7em 0 0.2em 0;
       font-family: "PT Sans Narrow", arial, sans;
       font-weight: bold;
       font-size: 2.7em;
@@ -65,7 +66,7 @@
     .body {
       margin: 0;
       padding: 0 0 0.2em 0;
-	  font-family: Arial, sans;
+      font-family: "PT Sans", arial, sans;
       font-size: 1.2em;
     }
     .footer {
@@ -78,6 +79,7 @@
 	   float: right;
 	   color: #CCC;
 	   margin-right: 15px;
+      font-family: "PT Sans", arial, sans;
     }
   </ui:style>
   <g:HTMLPanel addStyleNames="{style.fill}">

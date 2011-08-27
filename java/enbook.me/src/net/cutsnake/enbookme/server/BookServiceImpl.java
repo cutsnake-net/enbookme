@@ -2,6 +2,8 @@
 
 package net.cutsnake.enbookme.server;
 
+import static com.google.appengine.api.taskqueue.TaskOptions.Builder.withUrl;
+
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,6 +14,8 @@ import javax.jdo.Transaction;
 import net.cutsnake.enbookme.client.BookService;
 import net.cutsnake.enbookme.shared.Book;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -45,7 +49,8 @@ public class BookServiceImpl extends RemoteServiceServlet implements
           book.setCreated(System.currentTimeMillis());
         }
         pm.makePersistent(book);
-        log.info("New book key: " + book.getKey());
+        Queue queue = QueueFactory.getQueue("check-queue");
+        queue.add(withUrl("/tasks/check/" + book.getKey()));
       }
       @Override
       public List<Book> postQuery(List<Book> results) {
@@ -94,9 +99,6 @@ public class BookServiceImpl extends RemoteServiceServlet implements
         query.setIgnoreCache(false);
         @SuppressWarnings("unchecked")
         List<Book> results = Lists.newArrayList(pm.detachCopyAll((List<Book>) query.execute(currentUser.getUserId())));
-        for (Book book : results) {
-          log.info("Book [" + book.getKey() + "]: " + pm.getObjectId(book));
-        }
         txn.commit();
         // TODO(jamie): This can't be necessary can it?
         return postQuery(results);

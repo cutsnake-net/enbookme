@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+  <cron>
+    <url>/tasks/checkall</url>
+    <!--  run every two hours, but only re-check those checked > 24 hours ago -->
+    <description>Recheck all books every 2 hours</description>
+    <schedule>every 2 hours synchronized</schedule>
+    <timezone>Europe/London</timezone>
+  </cron>
+</cronentries>

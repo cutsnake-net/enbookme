@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queue-entries>
+  <queue>
+    <name>check-queue</name>
+    <rate>10/s</rate>
+    <bucket-size>40</bucket-size>
+    <!--Set the number of max concurrent requests to 10-->
+    <max-concurrent-requests>10</max-concurrent-requests>
+  </queue>
+  <queue>
+    <name>update-queue</name>
+    <rate>10/s</rate>
+    <bucket-size>40</bucket-size>
+    <!--Set the number of max concurrent requests to 10-->
+    <max-concurrent-requests>10</max-concurrent-requests>
+  </queue>
+</queue-entries>

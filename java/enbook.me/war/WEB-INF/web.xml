@@ -42,9 +42,25 @@
     <url-pattern>/tasks/update/*</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>cronServlet</servlet-name>
+    <servlet-class>net.cutsnake.enbookme.server.AllBooksCheckerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cronServlet</servlet-name>
+    <url-pattern>/tasks/checkall</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>EnbookMe.html</welcome-file>
   </welcome-file-list>
-
+  <security-constraint>
+    <web-resource-collection>
+      <url-pattern>/tasks/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
 </web-app>
