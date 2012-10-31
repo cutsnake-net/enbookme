@@ -4,8 +4,21 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  
-  <!-- Servlets -->
+  <filter>
+    <filter-name>guiceFilter</filter-name>
+    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>guiceFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>net.cutsnake.enbookme.server.inject.ContextListener</listener-class>
+  </listener>
+
+  <!-- Servlets
   <servlet>
     <servlet-name>loginServlet</servlet-name>
     <servlet-class>net.cutsnake.enbookme.server.LoginServiceImpl</servlet-class>
@@ -50,7 +63,7 @@
     <servlet-name>cronServlet</servlet-name>
     <url-pattern>/tasks/checkall</url-pattern>
   </servlet-mapping>
-  
+-->
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>EnbookMe.html</welcome-file>

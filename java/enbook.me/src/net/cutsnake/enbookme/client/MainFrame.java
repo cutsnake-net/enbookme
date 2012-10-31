@@ -18,20 +18,28 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A frame surrounding the whole app.
+ * 
  * @author jamie
  */
-public class MainFrame extends Composite implements AcceptsOneWidget, UserLoggedInEvent.Handler, UserNotLoggedInEvent.Handler {
+public class MainFrame extends Composite implements AcceptsOneWidget, UserLoggedInEvent.Handler,
+    UserNotLoggedInEvent.Handler {
 
   private static MainFrameUiBinder uiBinder = GWT.create(MainFrameUiBinder.class);
 
-  interface MainFrameUiBinder extends UiBinder<Widget, MainFrame> {}
+  interface MainFrameUiBinder extends UiBinder<Widget, MainFrame> {
+  }
 
-  @UiField Anchor username;
-  @UiField Label help;
-  @UiField SimplePanel content;
-  @UiField SimplePanel helpPanel;
-  @UiField LayoutPanel layoutPanel;
-  
+  @UiField
+  Anchor username;
+  @UiField
+  Label help;
+  @UiField
+  SimplePanel content;
+  @UiField
+  SimplePanel helpPanel;
+  @UiField
+  LayoutPanel layoutPanel;
+
   public MainFrame(IsWidget w) {
     initWidget(uiBinder.createAndBindUi(this));
     content.setWidget(w);
@@ -57,21 +65,21 @@ public class MainFrame extends Composite implements AcceptsOneWidget, UserLogged
     username.setHref(e.getLoginInfo().getLoginUrl());
     username.setTitle("Sign in");
   }
-  
+
   @UiHandler("help")
   public void onHelp(ClickEvent e) {
     if (help.getText().equals("help")) {
       layoutPanel.setWidgetVisible(content, false);
       layoutPanel.setWidgetVisible(helpPanel, true);
       help.setText("back");
-//      helpPanel.setVisible(true);
-//      content.setVisible(false);
+      // helpPanel.setVisible(true);
+      // content.setVisible(false);
     } else {
       layoutPanel.setWidgetVisible(helpPanel, false);
       layoutPanel.setWidgetVisible(content, true);
       help.setText("help");
-//      helpPanel.setVisible(false);
-//      content.setVisible(true);
+      // helpPanel.setVisible(false);
+      // content.setVisible(true);
     }
   }
 }

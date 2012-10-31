@@ -14,7 +14,9 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("books")
 public interface BookService extends RemoteService {
-	List<Book> list() throws IllegalArgumentException;
+  List<Book> list() throws IllegalArgumentException;
+
   List<Book> add(Book book) throws IllegalArgumentException;
+
   List<Book> remove(List<Book> books) throws IllegalArgumentException;
 }

@@ -31,12 +31,18 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
   private static MainPanelUiBinder uiBinder = GWT.create(MainPanelUiBinder.class);
   private final BookServiceAsync bookService;
   private static final String URL_REGEX = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-  interface MainPanelUiBinder extends UiBinder<Widget, MainPanel> {}
 
-  @UiField(provided = true) CellTable<Book> bookList;
-  @UiField TextBox urlBox;
-  @UiField TextBox nameBox;
-  @UiField TextBox emailBox;
+  interface MainPanelUiBinder extends UiBinder<Widget, MainPanel> {
+  }
+
+  @UiField(provided = true)
+  CellTable<Book> bookList;
+  @UiField
+  TextBox urlBox;
+  @UiField
+  TextBox nameBox;
+  @UiField
+  TextBox emailBox;
   private String userEmail;
   private RegExp urlRegex = RegExp.compile(URL_REGEX);
 
@@ -115,7 +121,7 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
   public void onCreate(ClickEvent e) {
     String emailAddr = emailBox.getText();
     if (!emailAddr.endsWith("@kindle.com") && !emailAddr.endsWith("@free.kindle.com")
-            && !emailAddr.equalsIgnoreCase(userEmail)) {
+        && !emailAddr.equalsIgnoreCase(userEmail)) {
       Window.alert("Please only use Kindle device emails or the email registered to this account.");
     } else if (!urlRegex.test(urlBox.getText())) {
       Window.alert("Please use a valid URL");
@@ -126,7 +132,8 @@ public class MainPanel extends Composite implements UserLoggedInEvent.Handler {
       book.setEmail(emailAddr);
       bookService.add(book, new AsyncCallback<List<Book>>() {
         @Override
-        public void onFailure(Throwable caught) {}
+        public void onFailure(Throwable caught) {
+        }
 
         @Override
         public void onSuccess(List<Book> result) {

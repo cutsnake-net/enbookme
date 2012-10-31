@@ -4,11 +4,11 @@ package net.cutsnake.enbookme.shared;
 
 import java.io.Serializable;
 
-import javax.jdo.annotations.Extension;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import com.googlecode.objectify.annotation.Cache;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.OnSave;
 
 /**
  * Defines a book mapping.
@@ -16,143 +16,137 @@ import javax.jdo.annotations.PrimaryKey;
  * @author jamie
  */
 @SuppressWarnings("serial")
-@PersistenceCapable(detachable = "true")
+@Cache @Entity
 public class Book implements Serializable {
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  @Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
-  private String Key;
-  
-  @Persistent
-  private String Url;
-  
-  @Persistent
-  private String Name;
-  
-  @Persistent
-  private String Owner;
-  
-  @Persistent
-  private String Email;
-  
-  @Persistent
-  private long Created = -1;
-  
+
+  @Id private String key;
+  private String url;
+  private String name;
+  @Index private String owner;
+  private String email;
+  private long created = -1;
+
   /**
-   * The last time the content at the URL was checked for updates.
+   * The last time the content at the url was checked for updates.
    */
-  @Persistent
-  private long LastChecked = -1;
-  
+  @Index private long lastChecked = -1;
+
   /**
-   * The last time the content at the URL was found to have changed.
+   * The last time the content at the url was found to have changed.
    */
-  @Persistent
-  private long LastChanged = -1;
-  
+  private long lastChanged = -1;
+
   /**
-   * The last time the content at the URL was sent as an update.
+   * The last time the content at the url was sent as an update.
    */
-  @Persistent
-  private long LastUpdateSent = -1;
-  
-  @Persistent
-  private String Checksum;
-  
-  @Persistent
-  private int Length = -1;
+  private long lastUpdateSent = -1;
+  private String checksum;
+  private int length = -1;
 
   public String getKey() {
-    return Key;
+    return key;
   }
 
   public String getUrl() {
-    return Url;
+    return url;
   }
 
   public Book setUrl(String url) {
-    Url = url;
+    this.url = url;
     return this;
   }
 
   public String getName() {
-    return Name;
+    return name;
   }
 
   public Book setName(String name) {
-    Name = name;
+    this.name = name;
     return this;
   }
 
   public String getOwner() {
-    return Owner;
+    return owner;
   }
 
   public Book setOwner(String owner) {
-    Owner = owner;
+    this.owner = owner;
     return this;
   }
 
   public String getEmail() {
-    return Email;
+    return email;
   }
 
   public Book setEmail(String email) {
-    Email = email;
+    this.email = email;
     return this;
   }
 
   public long getCreated() {
-    return Created;
+    return created;
   }
 
   public Book setCreated(long created) {
-    Created = created;
+    this.created = created;
     return this;
   }
 
   public long getLastChecked() {
-    return LastChecked;
+    return lastChecked;
   }
 
   public Book setLastChecked(long lastChecked) {
-    LastChecked = lastChecked;
+    this.lastChecked = lastChecked;
     return this;
   }
 
   public long getLastChanged() {
-    return LastChanged;
+    return lastChanged;
   }
 
   public Book setLastChanged(long lastChanged) {
-    LastChanged = lastChanged;
+    this.lastChanged = lastChanged;
     return this;
   }
 
   public long getLastUpdateSent() {
-    return LastUpdateSent;
+    return lastUpdateSent;
   }
 
   public Book setLastUpdateSent(long lastUpdateSent) {
-    LastUpdateSent = lastUpdateSent;
+    this.lastUpdateSent = lastUpdateSent;
     return this;
   }
 
   public String getChecksum() {
-    return Checksum;
+    return checksum;
   }
 
   public Book setChecksum(String checksum) {
-    Checksum = checksum;
+    this.checksum = checksum;
     return this;
   }
 
   public int getLength() {
-    return Length;
+    return length;
   }
 
   public Book setLength(int length) {
-    Length = length;
+    this.length = length;
     return this;
+  }
+
+  @OnSave void updateRecord() {
+    if (created < 0) {
+      created = System.currentTimeMillis();
+    }
+    // Following serves to ensure we don't stomp all over someone else's record merely by
+    // changing the owner etc
+    key = createKey(owner, url, email);
+  }
+
+  public static String createKey(String ownerId, String url, String email) {
+    return ownerId + "|" + url + "|" + email;
   }
 }

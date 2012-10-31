@@ -14,13 +14,13 @@ import com.google.web.bindery.event.shared.Event;
 public class UserNotLoggedInEvent extends Event<Handler> {
 
   public static Type<Handler> TYPE = new Type<Handler>();
-  
+
   public interface Handler {
     void handle(UserNotLoggedInEvent e);
   }
-  
+
   private LoginInfo loginInfo;
-  
+
   public UserNotLoggedInEvent(LoginInfo loginInfo) {
     this.loginInfo = loginInfo;
   }
