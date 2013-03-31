@@ -29,7 +29,8 @@ func ListPublications(w http.ResponseWriter, r *http.Request) {
 	} else {
 		c.Infof("No books found")
 	}
-	if err := booksTemplate.Execute(w, books); err != nil {
+	data := &TemplateData{User: *user, Publications: books}
+	if err := booksTemplate.Execute(w, data); err != nil {
 		http.Error(w, "Could not run template", http.StatusInternalServerError)
 	}
 }
@@ -47,6 +48,11 @@ func CurrentUser(c appengine.Context, w http.ResponseWriter, r *http.Request) *u
 		return nil
 	}
 	return u
+}
+
+type TemplateData struct {
+	User user.User
+	Publications []Publication
 }
 
 var booksTemplate = template.Must(template.ParseFiles("templates/home.html"))

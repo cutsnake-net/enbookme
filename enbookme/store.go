@@ -9,10 +9,12 @@ import (
 
 func AddPublication(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
+	u := CurrentUser(c, w, r)
 	g := Publication{
 		Name:    r.FormValue("Name"),
 		Url:     r.FormValue("URL"),
 		Email:   r.FormValue("Email"),
+		Owner:	 u.Email,
 		Created: time.Now(),
 	}
 	_, err := datastore.Put(c, g.Key(c), &g)

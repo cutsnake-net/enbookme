@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>enbook.me</title>
+    <meta name="keywords" content="ebook, kindle, doc">
+    <meta name="description" content="Tracks updates to URLs and forwards them to your Ebook reader">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/enbookme.css" />
+    <link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:bold" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,bold" rel="stylesheet" type="text/css">
+  </head>
+  <body class="fill">
+    <header class="linkBar">
+      <span class="logo">Enbook.Me</span>
+      <a class="username" href="/">back</a>
+      <span class="username">{{.Email}}</span>
+    </header>
+    <section class="helpContent">
+      <article>
+        <header>
+          <h1>What is Enbook.me?</h1>
+        </header>
+        <p>This is a simple service that you can use to track updates to documents around the web, and automatically download them to your eBook reader.</p>
+        <p>The application takes a daily look at all the registered URLs to see if they've changed.  If they have, a new version is sent out to its subscribers.</p>
+      </article>
+      <article>
+        <header>
+          <h1>What devices are supported?</h1>
+        </header>
+        <p>At the moment, we can only send to Kindles, and devices running Kindle software.  We aim to roll out support for Android devices without Kindle software soon, and other devices after that.</p>
+      </article>
+      <article>
+        <header>
+          <h1>What file types are supported?</h1>
+        </header>
+        <p>We're running on AppEngine, which limits the sorts of files we can send as email attachments, but all the usual suspects are supported, including PDF, Word, Text, ODT and others.  For a full list, see <a href="http://code.google.com/intl/us/appengine/docs/python/mail/overview.html#Attachments">here</a>, and compare to those supported by your device.</p>
+      </article>
+      <article>
+        <header>
+          <h1>What does it mean by &quot;the email of my Kindle device&quot;?</h1>
+        </header>
+        <p>All Kindle devices have an email address you can use to email personal documents to.  It can be found on the device, under settings.  For more information, see the page at <a href="http://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200493090#email">Amazon</a>.</p>
+      </article>
+      <article>
+        <header>
+          <h1>What does this cost me?</h1>
+        </header>
+        <p>Enbook.me charges nothing, but depending on how you use the sync service, Amazon may charge you for syncing personal documents.  This varies from country to country, but usually synching over WiFi is free, but doing so over 3G costs a nominal fee.  More details <a href="http://www.amazon.co.uk/gp/help/customer/display.html?nodeId=200493090#fees">here</a>.</p>
+      </article>
+    </section>
+    <footer>
+      <span class="footerText">Copyright 2013, cutsnake.net. All rights reserved.</span>
+    </footer>
+  </body>
+</html>
+
