@@ -15,7 +15,7 @@ func AddPublication(w http.ResponseWriter, r *http.Request) {
 		Email:   r.FormValue("Email"),
 		Created: time.Now(),
 	}
-	_, err := datastore.Put(c, datastore.NewIncompleteKey(c, "Publication", nil), &g)
+	_, err := datastore.Put(c, g.Key(c), &g)
 	if err != nil {
 		http.Error(w, "Could not store book", http.StatusInternalServerError)
 		return

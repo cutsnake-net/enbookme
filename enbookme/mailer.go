@@ -1,13 +1,13 @@
 package enbookme
 
 import (
-"fmt"
+	"fmt"
 	"time"
 
 	"appengine"
 	"appengine/datastore"
-	"appengine/urlfetch"
 	"appengine/mail"
+	"appengine/urlfetch"
 )
 
 type UrlFetchError struct {
@@ -16,15 +16,14 @@ type UrlFetchError struct {
 	Status string
 }
 
-
 func (e *UrlFetchError) Error() string {
-    return fmt.Sprintf("URL Fetch Error (%s) for %s, requested by Publication %d", e.Status, e.Url, e.PubId)
+	return fmt.Sprintf("URL Fetch Error (%s) for %s, requested by Publication %d", e.Status, e.Url, e.PubId)
 }
 
-func SendEmail(c appengine.Context, id int64) error {
+func SendEmail(c appengine.Context, key *datastore.Key) error {
 	// Lookup the publication
-	key := datastore.NewKey(c, "publication", "", id, nil)
 	var pub Publication
+	c.Infof("Using key %s", key.StringID())
 	if err := datastore.Get(c, key, &pub); err != nil {
 		return err
 	}
@@ -39,7 +38,7 @@ func SendEmail(c appengine.Context, id int64) error {
 		return err
 	}
 	if resp.StatusCode != 200 {
-		return &UrlFetchError{id, pub.Url, resp.Status}
+		return &UrlFetchError{key.IntID(), pub.Url, resp.Status}
 	}
 
 	buf := make([]byte, resp.ContentLength)
@@ -49,12 +48,12 @@ func SendEmail(c appengine.Context, id int64) error {
 	}
 
 	doc := &mail.Attachment{
-		Name: "Update from Enbook.me", 
+		Name: "Update from Enbook.me",
 		Data: buf,
 	}
 	message := &mail.Message{
-		Sender:      "",
-		To:          []string{""},
+		Sender:      "Enbook.me <jamieburrell@gmail.com>",
+		To:          []string{pub.Email},
 		Subject:     "",
 		Body:        "Update from Enbook.me",
 		Attachments: []mail.Attachment{*doc},
@@ -64,8 +63,9 @@ func SendEmail(c appengine.Context, id int64) error {
 	}
 	pub.LastChanged = time.Now()
 
+	// Save the changes
 	if _, err = datastore.Put(c, key, pub); err != nil {
 		return err
 	}
-return nil;
+	return nil
 }

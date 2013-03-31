@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>enbook.me</title>
+    <meta name="keywords" content="ebook, kindle, doc">
+    <meta name="description" content="Tracks updates to URLs and forwards them to your Ebook reader">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/enbookme.css" />
+  </head>
+  <body>
+    <div class="mainPanel">
+    <form action="/add" method="post" class="addPublication">
+      <div><label for="Name">Name</label><input type="text" name="Name"></input></div>
+      <div><label for="URL">URL</label><input type="text" name="URL"></input></div>
+      <div><label for="Email">Email</label><input type="text" name="Email"></input></div>
+      <div><input type="submit" value="Enbook it"></div>
+    </form>
+    <table class="bookList">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+          <th>Created</th>
+          <th>Last Checked</th>
+          <th>Last Changed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .}}
+        <tr class="bookEntry">
+          <th>{{.Name}}</th>
+          <td>{{.Url}}</td>
+          <td>{{.Created}}</td>
+          <td>{{.LastChecked}}</td>
+          <td>{{.LastChanged}}</td>
+        </tr>
+        {{end}}
+      </tbody>
+    </table>
+    </div>
+  </body>
+</html>
+

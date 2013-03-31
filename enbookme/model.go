@@ -1,6 +1,9 @@
 package enbookme
 
 import (
+	"appengine"
+	"appengine/datastore"
+	"fmt"
 	"time"
 )
 
@@ -13,6 +16,10 @@ type Publication struct {
 	LastUpdateSent time.Time
 	Length         int64
 	Name           string
-	Owner          int64
+	Owner          string
 	Url            string
+}
+
+func (r *Publication) Key(c appengine.Context) *datastore.Key {
+	return datastore.NewKey(c, "Publication", fmt.Sprintf("%s:%s:%s", r.Owner, r.Url, r.Email), 0, nil)
 }
