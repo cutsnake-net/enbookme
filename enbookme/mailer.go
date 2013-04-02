@@ -9,7 +9,7 @@ import (
 	"appengine/mail"
 	"appengine/urlfetch"
 	"hash/crc64"
-  "strconv"
+	"strconv"
 )
 
 type UrlFetchError struct {
@@ -31,7 +31,7 @@ func SendEmail(c appengine.Context, key *datastore.Key) error {
 	}
 
 	// Update the mod times
-	pub.LastChanged = time.Now()
+	pub.LastChecked = time.Now()
 
 	// Go and get the content
 	client := urlfetch.Client(c)
@@ -48,14 +48,17 @@ func SendEmail(c appengine.Context, key *datastore.Key) error {
 	if err != nil {
 		return err
 	}
+
 	checksum := strconv.FormatUint(crc64.Checksum(buf, crc64.MakeTable(crc64.ISO)), 36)
 	if checksum == pub.Checksum {
 		c.Infof("Checksum has not changed.  Not sending mail.")
 		return nil
-	} else {
-		c.Infof("Checksum has changed.  Sending mail.")
-		pub.Checksum = checksum
 	}
+
+	c.Infof("Checksum for [%s] has changed.  Sending mail.", pub.Name)
+	pub.Length = resp.ContentLength
+	pub.LastChanged = time.Now()
+	pub.Checksum = checksum
 
 	doc := &mail.Attachment{
 		Name: "Update from Enbook.me",
@@ -69,14 +72,14 @@ func SendEmail(c appengine.Context, key *datastore.Key) error {
 		Attachments: []mail.Attachment{*doc},
 	}
 	if err := mail.Send(c, message); err != nil {
-    c.Errorf("Failed to send mail [%s].", pub.Name)
+		c.Errorf("Failed to send mail [%s].", pub.Name)
 		return err
 	}
-	pub.LastChanged = time.Now()
+	pub.LastUpdateSent = time.Now()
 
 	// Save the changes
 	if _, err = datastore.Put(c, key, &pub); err != nil {
-    c.Errorf("Failed to save datastore entity [%s].", pub.Name)
+		c.Errorf("Failed to save datastore entity [%s].", pub.Name)
 		return err
 	}
 	return nil
