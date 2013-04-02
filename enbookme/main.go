@@ -9,4 +9,3 @@ func init() {
 	http.HandleFunc("/add", AddPublication)
 	http.HandleFunc("/help", ShowHelp)
 }
-
