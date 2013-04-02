@@ -19,6 +19,7 @@ func AddPublication(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err := datastore.Put(c, g.Key(c), &g)
 	if err != nil {
+    c.Errorf("Could not store book: %s", err.Error())
 		http.Error(w, "Could not store book", http.StatusInternalServerError)
 		return
 	}

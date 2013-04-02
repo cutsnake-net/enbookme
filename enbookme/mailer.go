@@ -9,6 +9,7 @@ import (
 	"appengine/mail"
 	"appengine/urlfetch"
 	"hash/crc64"
+  "strconv"
 )
 
 type UrlFetchError struct {
@@ -47,7 +48,7 @@ func SendEmail(c appengine.Context, key *datastore.Key) error {
 	if err != nil {
 		return err
 	}
-	checksum := crc64.Checksum(buf, crc64.MakeTable(crc64.ISO))
+	checksum := strconv.FormatUint(crc64.Checksum(buf, crc64.MakeTable(crc64.ISO)), 36)
 	if checksum == pub.Checksum {
 		c.Infof("Checksum has not changed.  Not sending mail.")
 		return nil
@@ -68,12 +69,14 @@ func SendEmail(c appengine.Context, key *datastore.Key) error {
 		Attachments: []mail.Attachment{*doc},
 	}
 	if err := mail.Send(c, message); err != nil {
+    c.Errorf("Failed to send mail [%s].", pub.Name)
 		return err
 	}
 	pub.LastChanged = time.Now()
 
 	// Save the changes
-	if _, err = datastore.Put(c, key, pub); err != nil {
+	if _, err = datastore.Put(c, key, &pub); err != nil {
+    c.Errorf("Failed to save datastore entity [%s].", pub.Name)
 		return err
 	}
 	return nil
